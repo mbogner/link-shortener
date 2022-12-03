@@ -70,6 +70,13 @@ The result from the build container is the native executable named `link-shorten
 container. To make the executable compatible with alpine the package `gcompat` had to be installed which is a
 compatibility layer for glibc.
 
+The native image will look like this:
+
+```text
+docker.io/mbopm/link-shortener  0.0.1-SNAPSHOT-native  5051d67fac80  53 minutes ago  113 MB
+docker.io/mbopm/link-shortener  latest-native          5051d67fac80  53 minutes ago  113 MB
+```
+
 You can start the app based on the native image including a database by running the `docker-compose-app-native.yml`
 file.
 
