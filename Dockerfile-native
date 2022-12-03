@@ -1,0 +1,11 @@
+FROM ghcr.io/graalvm/graalvm-ce:ol9-java17 as builder
+WORKDIR /application
+COPY ./ ./
+RUN ./gradlew clean nativeBuild
+
+FROM alpine:latest
+WORKDIR /application
+RUN apk add --no-cache curl gcompat
+COPY --from=builder /application/build/native/nativeCompile/link-shortener ./link-shortener
+CMD ["/application/link-shortener"]
+EXPOSE 8080

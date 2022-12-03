@@ -1,0 +1,21 @@
+legal:
+  - LICENSE.txt
+docs:
+  - README.md
+projectconfig:
+  - .editorconfig
+  - .github
+  - .run
+  - .gitignore
+gradle-wrapper:
+  - .gradle/**/*
+  - gradlew*
+  - gradle.properties
+  - settings.gradle.kts
+gradle: "**/build.gradle.kts"
+
+code: src/**/*
+
+infra:
+  - docker-compose*.yml
+

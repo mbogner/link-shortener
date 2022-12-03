@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: link-shortener_postgres-app
+    hostname: postgres
+    volumes:
+      - postgresDataApp:/var/lib/postgresql/data/pgdata
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: "UTC"
+      PGTZ: "UTC"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 2s
+      timeout: 3s
+      retries: 5
+  app:
+    image: docker.io/mbopm/link-shortener:latest-native
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    healthcheck:
+      test: curl -s http://localhost:8080 -o /dev/null
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+volumes:
+  postgresDataApp:
+    name: postgresDataApp

@@ -1,0 +1,14 @@
+app:
+  tasks:
+    link-cleanup-task:
+      cron: "*/10 * * * * *"
+      config:
+        age-in-seconds: 60
+
+logging:
+  level:
+    root: INFO
+    dev.mbo: TRACE
+    org.springframework.data.r2dbc: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG # for queries
+    io.r2dbc.postgresql.PARAM: DEBUG # for parameters

@@ -1,0 +1,38 @@
+app:
+  port: ${APP_PORT:8080}
+  db:
+    host: ${DB_HOST:localhost}
+    port: ${DB_PORT:5432}
+    name: ${DB_NAME:db}
+    user: ${DB_USER:admin}
+    pass: ${DB_PASS:admin}
+    common-url: postgresql://${app.db.host}:${app.db.port}/${app.db.name}
+  tasks:
+    link-cleanup-task:
+      enabled: true
+      cron: "0 0 */2 * * *" # every 2 hours
+      config:
+        age-in-seconds: 31536000 # every year
+
+logging:
+  level:
+    root: INFO
+
+server:
+  port: ${app.port}
+
+spring:
+  r2dbc:
+    url: r2dbc:${app.db.common-url}
+    username: ${app.db.user}
+    password: ${app.db.pass}
+  flyway:
+    url: jdbc:${app.db.common-url}
+    user: ${app.db.user}
+    password: ${app.db.pass}
+    baseline-on-migrate: false
+  web:
+    resources:
+      add-mappings: false
+  main:
+    banner-mode: off
